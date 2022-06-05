@@ -17,21 +17,21 @@ private val LightColorPalette = lightColors(
     primary = Purple500,
     primaryVariant = Purple700,
     secondary = Teal200,
-    secondaryVariant=taupe100,
-    background =taupe800,
-    surface = rust300,
+    secondaryVariant = taupe100,
+    background = rust300,
+    surface = rust600,
     onPrimary = rust600,
-    error=Color.Red,
+    error = Color.Red,
     onSecondary = white150,
     onBackground = white850,
-    onSurface =gray800,
+    onSurface = gray800,
 
-)
+    )
 
 @Composable
 fun NotesApplicationTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val colors = if (darkTheme) {
         DarkColorPalette
