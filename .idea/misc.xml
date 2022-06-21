@@ -4,8 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/dhira/OneDrive/Desktop/Kotlin/NotesApplication/app/src/main/res/drawable/ic_outline_engineering_24.xml" value="0.1835" />
+        <entry key="..\:/Users/dhira/OneDrive/Desktop/Kotlin/NotesApplication/app/src/main/res/layout/activity_onboarding.xml" value="0.2520833333333333" />
         <entry key="..\:/Users/dhira/OneDrive/Desktop/Kotlin/NotesApplication/app/src/main/res/layout/activity_splash.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/dhira/OneDrive/Desktop/Kotlin/NotesApplication/app/src/main/res/layout/activity_splash2.xml" value="0.25" />
+        <entry key="..\:/Users/dhira/OneDrive/Desktop/Kotlin/NotesApplication/app/src/main/res/layout/item_container.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/dhira/OneDrive/Desktop/Kotlin/NotesApplication/app/src/main/res/xml/logback.xml" value="0.1" />
       </map>
     </option>

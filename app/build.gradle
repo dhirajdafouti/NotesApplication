@@ -21,23 +21,13 @@ android {
     }
 
     buildTypes {
-        debug{
-            //signing will be performed later.
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
+
         release {
             //signing will be performed later.
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        customDebug{
-            //this will include all the features of main debug version.
-            initWith debug
-            minifyEnabled false
-            debuggable true
-            applicationIdSuffix ".customDebug"
-        }
+
     }
 
     compileOptions {
@@ -84,7 +74,7 @@ dependencies {
     //logger implementation
     implementation 'com.github.tony19:logback-android:2.0.0'
     implementation 'org.slf4j:slf4j-api:1.7.30'
-    implementation 'ch.qos.logback:logback-core:1.2.3'
+   // implementation 'ch.qos.logback:logback-core:1.2.3'
 //https://wageeshaerangi.medium.com/logging-in-android-applications-with-logback-3736ea46e199
 
     //material showcase design
