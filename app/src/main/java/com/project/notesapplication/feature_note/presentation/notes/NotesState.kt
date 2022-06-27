@@ -5,6 +5,6 @@ import com.project.notesapplication.feature_note.domain.util.NoteOrder
 import com.project.notesapplication.feature_note.domain.util.OrderType
 
 data class NotesState(
-    val noted: List<Note> = emptyList(),
+    val notes: List<Note> = emptyList(),
     val notesOrder: NoteOrder = NoteOrder.Date(OrderType.Descending),
     val isOrderSectionVisible: Boolean = false)

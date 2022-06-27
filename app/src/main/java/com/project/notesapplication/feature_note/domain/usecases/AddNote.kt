@@ -6,7 +6,7 @@ import com.project.notesapplication.feature_note.domain.repository.NoteRepositor
 class AddNote(private val repository: NoteRepository) {
 
     @Throws(Note.InvalidNoteException::class)
-    suspend fun invoke(note: Note) {
+    suspend operator fun invoke(note: Note) {
         if (note.title.isBlank()) {
            throw Note.InvalidNoteException("The title of the note cannot be empty!!!!")
         }

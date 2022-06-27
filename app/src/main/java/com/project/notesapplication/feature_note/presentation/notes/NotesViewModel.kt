@@ -6,6 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.project.notesapplication.feature_note.domain.model.Note
 import com.project.notesapplication.feature_note.domain.usecases.NoteUseCases
+import com.project.notesapplication.feature_note.domain.util.NoteOrder
+import com.project.notesapplication.feature_note.domain.util.OrderType
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,10 +20,21 @@ class NotesViewModel @Inject constructor(private val notesUseCases: NoteUseCases
     val state: State<NotesState> = _state
 
     private var recentlyDeletedNote: Note? = null
+
+    init {
+        getNotes(NoteOrder.Date(OrderType.Descending))
+    }
+
+    private var getNotesJob: Job?=null
     fun onEvent(event: NotesEvent) {
         when (event) {
             is NotesEvent.Order -> {
-
+                if (state.value.notesOrder::class == event.noteOrder::class &&
+                    state.value.notesOrder.orderType == event.noteOrder.orderType
+                ) {
+                    return
+                }
+                getNotes(event.noteOrder)
             }
             is NotesEvent.DeleteNote -> {
                 viewModelScope.launch {
@@ -28,7 +44,8 @@ class NotesViewModel @Inject constructor(private val notesUseCases: NoteUseCases
             }
             is NotesEvent.RestoreNote -> {
                 viewModelScope.launch {
-
+                    notesUseCases.addNote(recentlyDeletedNote ?: return@launch)
+                    recentlyDeletedNote = null
                 }
 
             }
@@ -38,5 +55,16 @@ class NotesViewModel @Inject constructor(private val notesUseCases: NoteUseCases
                 )
             }
         }
+    }
+
+    private fun getNotes(noteOrder: NoteOrder) {
+        getNotesJob?.cancel()
+        getNotesJob=notesUseCases.getNotes(noteOrder).onEach { notes ->
+            _state.value = state.value.copy(
+                notes = notes,
+                notesOrder = noteOrder
+            )
+
+        }.launchIn(viewModelScope)
     }
 }

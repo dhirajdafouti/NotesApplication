@@ -1,13 +1,11 @@
 package com.project.notesapplication.feature_note.domain.usecases
 
+
 import com.project.notesapplication.feature_note.domain.model.Note
 import com.project.notesapplication.feature_note.domain.repository.NoteRepository
 import com.project.notesapplication.feature_note.domain.util.NoteOrder
 import com.project.notesapplication.feature_note.domain.util.OrderType
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-
-
 import kotlinx.coroutines.flow.map
 
 class GetNotes(private val repository: NoteRepository) {
