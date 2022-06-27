@@ -11,9 +11,11 @@ import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.project.notesapplication.ui.theme.NotesApplicationTheme
+import dagger.hilt.android.HiltAndroidApp
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+@HiltAndroidApp
 class MainActivity : ComponentActivity() {
 
     private val logger: Logger = LoggerFactory.getLogger(MainActivity::class.java)

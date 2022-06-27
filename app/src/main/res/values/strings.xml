@@ -3,4 +3,9 @@
 
     <string name="next">NEXT</string>
     <string name="_20sp">30sp</string>
+    <string name="title">Title</string>
+    <string name="date">Date</string>
+    <string name="color">Color</string>
+    <string name="ascending">Ascendingg</string>
+    <string name="decending">Decending</string>
 </resources>
