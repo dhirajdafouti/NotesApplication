@@ -1,7 +1,10 @@
 package com.project.notesapplication.feature_note.presentation.notes.notesui
 
 import androidx.compose.animation.*
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -15,7 +18,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.project.notesapplication.feature_note.presentation.notes.NotesEvent
 import com.project.notesapplication.feature_note.presentation.notes.NotesViewModel
+import com.project.notesapplication.feature_note.presentation.notes.components.NoteItem
 import com.project.notesapplication.feature_note.presentation.notes.components.OrderSection
+import kotlinx.coroutines.launch
 
 @Composable
 fun NotesScreen(
@@ -65,6 +70,27 @@ fun NotesScreen(
 
             }
             Spacer(modifier = Modifier.height(16.dp))
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(state.notes) { note ->
+                    NoteItem(note = note, modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+
+                        }, onDeleteClick = {
+                        viewModel.onEvent(NotesEvent.DeleteNote(note))
+                        scope.launch {
+                            val result = scaffoldState.snackbarHostState.showSnackbar(
+                                message = "Note Deleted",
+                                actionLabel = "Undo"
+                            )
+                            if (result == SnackbarResult.ActionPerformed) {
+                                viewModel.onEvent(NotesEvent.RestoreNote)
+                            }
+
+                        }
+                    })
+                }
+            }
         }
 
     }
