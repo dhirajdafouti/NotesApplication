@@ -7,6 +7,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.project.notesapplication.feature_note.domain.model.Note
@@ -19,7 +20,30 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddEditViewModel @Inject constructor(private val noteUseCases: NoteUseCases) : ViewModel() {
+class AddEditViewModel @Inject constructor(
+    private val noteUseCases: NoteUseCases,
+    savedStateHandle: SavedStateHandle,
+) : ViewModel() {
+    init {
+        savedStateHandle.get<Int>("noteId")?.let { noteId ->
+            if (noteId != -1) {
+                viewModelScope.launch {
+                    noteUseCases.getNote(noteId)?.also {note->
+                        currentNoteId=note.id
+                        _noteTitle.value =noteTitle.value.copy(
+                            text =note.title,
+                            isHintVisible = false
+                        )
+                        _noteContent.value =noteContent.value.copy(
+                            text=note.content,
+                            isHintVisible = false
+                        )
+                        _noteColor.value=note.color
+                    }
+                }
+            }
+        }
+    }
 
     private val _noteTitle =
         mutableStateOf<NoteTextFieldState>(NoteTextFieldState(text = "Enter the Note"))
@@ -79,7 +103,11 @@ class AddEditViewModel @Inject constructor(private val noteUseCases: NoteUseCase
                         )
                         _eventFlow.emit(UiEvent.saveNote)
                     } catch (e: Note.InvalidNoteException) {
-                        Log.e(TAG, e.localizedMessage)
+                        _eventFlow.emit(
+                            UiEvent.showSnackbar(
+                                message = e.message ?: "error"
+                            )
+                        )
                     }
                 }
             }
