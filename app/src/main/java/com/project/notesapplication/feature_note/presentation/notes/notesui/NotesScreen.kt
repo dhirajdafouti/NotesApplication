@@ -20,6 +20,7 @@ import com.project.notesapplication.feature_note.presentation.notes.NotesEvent
 import com.project.notesapplication.feature_note.presentation.notes.NotesViewModel
 import com.project.notesapplication.feature_note.presentation.notes.components.NoteItem
 import com.project.notesapplication.feature_note.presentation.notes.components.OrderSection
+import com.project.notesapplication.feature_note.presentation.util.Screen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -32,6 +33,7 @@ fun NotesScreen(
     val scope = rememberCoroutineScope()
     Scaffold(floatingActionButton = {
         FloatingActionButton(onClick = {
+            navController.navigate(Screen.AddEditNoteScreen.route)
 
         }, backgroundColor = MaterialTheme.colors.primary) {
             Icon(imageVector = Icons.Default.Add, contentDescription = "Add Note")
@@ -75,6 +77,10 @@ fun NotesScreen(
                     NoteItem(note = note, modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
+                            navController.navigate(
+                                Screen.AddEditNoteScreen.route +
+                                        "?noteId=${note.id}&noteColor=${note.color}"
+                            )
 
                         }, onDeleteClick = {
                         viewModel.onEvent(NotesEvent.DeleteNote(note))

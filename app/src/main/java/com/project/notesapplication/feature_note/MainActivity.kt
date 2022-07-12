@@ -1,36 +1,65 @@
 package com.project.notesapplication.feature_note
 
+import AddEditNoteScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Text
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.project.notesapplication.feature_note.presentation.notes.notesui.NotesScreen
+import com.project.notesapplication.feature_note.presentation.util.Screen
 import com.project.notesapplication.ui.theme.NotesApplicationTheme
-import dagger.hilt.android.HiltAndroidApp
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import dagger.hilt.android.AndroidEntryPoint
 
-@HiltAndroidApp
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val logger: Logger = LoggerFactory.getLogger(MainActivity::class.java)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        logger.info("The MainActivity Instance Created")
         setContent {
             NotesApplicationTheme {
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Green)) {
-                    Column {
-                        Text(text = "Welcome to Notes Application...")
+                Surface(
+                    color = MaterialTheme.colors.background
+                ) {
+                    val navController = rememberNavController()
+                    NavHost(
+                        navController = navController,
+                        startDestination = Screen.NotesScreen.route
+                    ) {
+                        composable(route = Screen.NotesScreen.route) {
+                            NotesScreen(navController = navController)
+                        }
+                        composable(
+                            route = Screen.AddEditNoteScreen.route +
+                                    "?noteId={noteId}&noteColor={noteColor}",
+                            arguments = listOf(
+                                navArgument(
+                                    name = "noteId"
+                                ) {
+                                    type = NavType.IntType
+                                    defaultValue = -1
+                                },
+                                navArgument(
+                                    name = "noteColor"
+                                ) {
+                                    type = NavType.IntType
+                                    defaultValue = -1
+                                },
+                            )
+                        ) {
+                            val color = it.arguments?.getInt("noteColor") ?: -1
+                            AddEditNoteScreen(
+                                navController = navController,
+                                noteColor = color
+                            )
+                        }
                     }
-
                 }
             }
         }
