@@ -7,6 +7,20 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('C:\\Users\\dhira\\OneDrive\\Desktop\\Signing\\Sign\\notesapplication.jks')
+            storePassword 'dhiraj'
+            keyAlias 'dhiraj'
+            keyPassword 'dhiraj'
+        }
+        release {
+            storeFile file('C:\\Users\\dhira\\OneDrive\\Desktop\\Signing\\Sign\\notesapplication.jks')
+            storePassword 'dhiraj'
+            keyAlias 'dhiraj'
+            keyPassword 'dhiraj'
+        }
+    }
     compileSdk 31
     defaultConfig {
         applicationId "com.project.notesapplication"
@@ -14,7 +28,7 @@ android {
         targetSdk 31
         versionCode 1
         versionName "1.0"
-       multiDexEnabled true
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
@@ -26,14 +40,20 @@ android {
     }
 
     buildTypes {
-
-        release {
-            //signing will be performed later.
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        debug {
+            debuggable true
+            applicationIdSuffix ".debug"
+            signingConfigs.debug
         }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfigs.release
 
+        }
     }
+
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
@@ -79,7 +99,7 @@ dependencies {
     //logger implementation
     implementation 'com.github.tony19:logback-android:2.0.0'
     implementation 'org.slf4j:slf4j-api:1.7.30'
-   // implementation 'ch.qos.logback:logback-core:1.2.3'
+    // implementation 'ch.qos.logback:logback-core:1.2.3'
 //https://wageeshaerangi.medium.com/logging-in-android-applications-with-logback-3736ea46e199
 
     //material showcase design
